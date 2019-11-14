@@ -7,6 +7,7 @@ const { check, validationResult } = require("express-validator");
 
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
+const Post = require("../../models/Post");
 
 // @route  GET api/profile/me
 // @desc   Get current users profile
@@ -83,10 +84,10 @@ router.post(
     // Build social object
     profileFields.social = {};
     if (youtube) profileFields.social.youtube = youtube;
-    if (facebook) profileFields.social.youtube = facebook;
-    if (instagram) profileFields.social.youtube = instagram;
-    if (linkedin) profileFields.social.youtube = linkedin;
-    if (twitter) profileFields.social.youtube = twitter;
+    if (facebook) profileFields.social.facebook = facebook;
+    if (instagram) profileFields.social.instagram = instagram;
+    if (linkedin) profileFields.social.linkedin = linkedin;
+    if (twitter) profileFields.social.twitter = twitter;
 
     try {
       let profile = await Profile.findOne({ user: req.user.id });
@@ -154,7 +155,7 @@ router.get("/user/:user_id", async (req, res) => {
 router.delete("/", auth, async (req, res) => {
   try {
     // @remove users posts\
-
+    await Post.deleteMany({ user: req.user.id });
     // Remove Profile
     await Profile.findOneAndRemove({ user: req.user.id });
 
