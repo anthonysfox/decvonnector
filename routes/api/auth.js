@@ -28,7 +28,7 @@ router.post(
   "/",
   [
     check("email", "Please include a valid email").isEmail(),
-    check("password", "Password is requireds").exists()
+    check("password", "Password is requireds").exists(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -47,9 +47,9 @@ router.post(
         return res.status(400).json({
           errors: [
             {
-              msg: "Invalid credentials"
-            }
-          ]
+              msg: "Invalid credentials",
+            },
+          ],
         });
       }
 
@@ -60,24 +60,24 @@ router.post(
         return res.status(400).json({
           errors: [
             {
-              msg: "Invalid credentials"
-            }
-          ]
+              msg: "Invalid credentials",
+            },
+          ],
         });
       }
 
       // JWT
       const payload = {
         user: {
-          id: user.id
-        }
+          id: user.id,
+        },
       };
 
       jwt.sign(
         payload,
         config.get("jwtSecret"),
         {
-          expiresIn: 360000
+          expiresIn: 360000,
         },
         (err, token) => {
           if (err) throw err;
